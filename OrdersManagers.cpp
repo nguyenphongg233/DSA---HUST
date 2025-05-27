@@ -231,17 +231,21 @@ bool cancel_order(int table_id) {
 void create_bill(int table_id) {
     Order* current = root;
     int found = 0;
-
+    int cnt = 0;
     while (current != NULL) {
         if (current->maBan == table_id && current->trangThai == DANG_PHUC_VU) {
             cout << "=== Hoa don ban "<< current->maBan << "===\n";
             cout << "Thoi gian: " << current->thoiGian << "\n";
             Dish* d = current->danhSachMon;
             while (d != NULL) {
-            	cout << "Mon: " << d -> maMon << " - SL tra: " << d -> soLuongTra << " - Ghi chu: " << d -> ghiChu << "\n";
+            	cnt++;
+            	if(cnt > 1)
+            		cout << "Mon: " << d -> maMon << " - SL tra: " << d -> soLuongTra << " - Ghi chu: " << d -> ghiChu << "\n";
                // printf("Mon: %s - SL tra: %d - Ghi chu: %s\n", d->maMon, d->soLuongTra, d->ghiChu);
                 d = d->next;
             }
+            cout << "Tong so Mon : " << current -> tongSoMonTra << '\n';
+            cout << "Tong so Dia : " << current -> tongSoDiaTra << '\n';
             current->trangThai = DA_THANH_TOAN;
             found = 1;
         }
@@ -283,10 +287,28 @@ signed main(){
 			string tenMon,ghichu;
 			while(cin >> tenNV){
 				if(tenNV == "#")break;
-				cin >> maban >> tenMon >> slg >> ghichu;
+				cin >> maban;
+				tenMon = "";
+				ghichu = "";
+				slg = 0;
+				
+				string t;
+				getline(cin,t);
+				int cnt = 0;
+				for(int i = 0;i < t.size();i++){
+					if(t[i] == char(34)){
+						cnt++;
+						continue;
+					}
+					if(cnt == 1)tenMon += t[i];
+					if(cnt == 2 && t[i] != ' ')slg = slg * 10 + t[i] - '0';
+					if(cnt == 3)ghichu += t[i];
+				}
+				
 				bool c = add_dish(maban,tenMon,slg,ghichu);
-				if(c)cout << "them mon thanh cong\n";
-				else cout << "them mon that bai\n";
+				
+				// if(c)cout << "them mon thanh cong\n";
+				// else cout << "them mon that bai\n";
 			}
 		}else if(s == "update_dish"){
 			string tenNV;
@@ -294,10 +316,26 @@ signed main(){
 			string tenMon;
 			while(cin >> tenNV){
 				if(tenNV == "#")break;
-				cin >> maban >> tenMon >> slg;
+				cin >> maban;
+				
+				string t;
+				getline(cin,t);
+				int cnt = 0;
+				tenMon = "";
+				slg = 0;
+				for(int i = 0;i < t.size();i++){
+					if(t[i] == char(34)){
+						cnt++;
+						continue;
+					}
+					if(cnt == 1)tenMon += t[i];
+					if(cnt == 2 && t[i] != ' ')slg = slg * 10 + t[i] - '0';
+				}
+
 				bool c = update_dish(maban,tenMon,slg);
-				if(c)cout << "tra mon thanh cong\n";
-				else cout << "tra mon that bai\n";
+				
+				// if(c)cout << "tra mon thanh cong\n";
+				// else cout << "tra mon that bai\n";
 			}
 		}else if(s == "cancel_dish"){
 			string tenNV;
@@ -305,10 +343,25 @@ signed main(){
 			string tenMon,ghichu;
 			while(cin >> tenNV){
 				if(tenNV == "#")break;
-				cin >> maban >> tenMon >> ghichu;
+				cin >> maban;
+				
+				string t;
+				getline(cin,t);
+				int cnt = 0;
+				tenMon = "";
+				ghichu = "";
+				for(int i = 0;i < t.size();i++){
+					if(t[i] == char(34)){
+						cnt++;
+						continue;
+					}
+					if(cnt == 1)tenMon += t[i];
+					if(cnt == 2 && t[i] != ' ')ghichu += t[i];
+				}
+				
 				bool c = cancel_dish(maban, tenMon, ghichu);
-				if(c)cout << "huy mon thanh cong\n";
-				else cout << "huy mon that bai\n";
+				// if(c)cout << "huy mon thanh cong\n";
+				// else cout << "huy mon that bai\n";
 			}
 		}else if(s == "cancel_order"){
 			string tenNV;
