@@ -1,0 +1,14 @@
+? create_order
+NV012 1 2025-03-29 12:15:07
+#
+? add_dish
+NV012 1 Bun_ngan 2 _
+NV012 1 Bun_bo 1 chin_tai
+#
+? cancel_dish
+NV007 01 Bun_ngan đoi_mon
+#
+? print_order 1
+? create_bill 
+NV007 01
+#
