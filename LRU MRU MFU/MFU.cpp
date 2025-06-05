@@ -16,7 +16,7 @@ struct Node {
 };
 
 struct MFU_Cache {
-    vector<vector<Node*>> save;
+    vector<deque<Node*>> save;
     unordered_map<int, Node*> cacheMap;
     int Max;
     int sz;
@@ -26,7 +26,7 @@ struct MFU_Cache {
     Node *tail;
 
     MFU_Cache(int LIM) : Max(0), sz(0), lim(LIM), head(nullptr), tail(nullptr) {
-        save = vector<vector<Node*>>(100);
+        save = vector<deque<Node*>>(5);
     }
 
     void removeNode(Node* node) {
@@ -79,8 +79,8 @@ struct MFU_Cache {
             Node *node = (*it).second;
             node->cnt++;
             if (Max < node->cnt) Max = node->cnt;
-            if (Max > save.size() - 2) save.push_back(vector<Node*>(0));
-            save[node->cnt].push_back(node);
+            if (Max > save.size() - 2) save.push_back(deque<Node*>(0));
+            save[node->cnt].push_front(node);
             moveNodeToHead(node);
         } else {
             if (sz == lim) {
@@ -91,8 +91,8 @@ struct MFU_Cache {
             cacheMap[key] = node;
             node->cnt = 1;
             if (Max < node->cnt) Max = node->cnt;
-            if (Max > save.size() - 2) save.push_back(vector<Node*>(0));
-            save[node->cnt].push_back(node);
+            if (Max > save.size() - 2) save.push_back(deque<Node*>(0));
+            save[node->cnt].push_front(node);
         }
     }
 
@@ -102,8 +102,8 @@ struct MFU_Cache {
             Node *node = (*it).second;
             node->cnt++;
             if (Max < node->cnt) Max = node->cnt;
-            if (Max > save.size() - 2) save.push_back(vector<Node*>(0));
-            save[node->cnt].push_back(node);
+            if (Max > save.size() - 2) save.push_back(deque<Node*>(0));
+            save[node->cnt].push_front(node);
             moveNodeToHead(node);
         }
     }
@@ -144,7 +144,7 @@ signed main() {
     put(cache, 3, "Value 3");
     printCache(cache);
 
-    get(cache, 2);  // Truy cập 2 -> Đưa 2 lên đầu
+    get(cache, 2); 
     printCache(cache);
 
     put(cache, 4, "Value 4");
