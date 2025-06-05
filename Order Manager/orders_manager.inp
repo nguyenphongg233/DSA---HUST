@@ -1,14 +1,21 @@
 ? create_order
-NV012 1 2025-03-29 12:15:07
+NV012 01 2025-03-29 12:15:07
+NV012 02 2025-03-29 12:15:07
 #
 ? add_dish
-NV012 1 Bun_ngan 2 _
-NV012 1 Bun_bo 1 chin_tai
+NV012 01 "Bun ngan" 2 ""
+NV012 01 "Bun bo" 1 "chin tai"
+NV012 02 "Bun ngan" 2 ""
+NV012 01 "Mi xao" 1 ""
+#
+? update_dish
+NV007 01 "Bun ngan" 2
+NV007 01 "Bun bo" 1
 #
 ? cancel_dish
-NV007 01 Bun_ngan đoi_mon
+NV007 01 "Bun ngan" "doi mon"
 #
-? print_order 1
-? create_bill 
+? print_order 02
+? create_bill
 NV007 01
 #
